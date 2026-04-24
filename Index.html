@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Japs Demon List</title>
+    <style>
+        body { background: #111; color: white; font-family: sans-serif; text-align: center; }
+        .level-card { border: 1px solid #333; margin: 10px; padding: 10px; border-radius: 8px; background: #1a1a1a; }
+        .pos { color: #ff3e3e; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>JAPS DEMON LIST</h1>
+    <div id="list-container">Loading data... [SYS_START_01]</div>
+
+    <script>
+        // Привязываем сайт к твоему JSON
+        fetch('list.json')
+            .then(res => res.json())
+            .then(data => {
+                let container = document.getElementById('list-container');
+                container.innerHTML = ''; // Очищаем надпись загрузки
+                
+                data.levels.forEach(lvl => {
+                    container.innerHTML += `
+                        <div class="level-card">
+                            <span class="pos">#${lvl.pos}</span> - 
+                            <strong>${lvl.name}</strong> 
+                            <small>(ID: ${lvl.id})</small> by ${lvl.creator}
+                        </div>`;
+                });
+                console.log("[WEB_SYNC_OK] Data rendered!");
+            })
+            .catch(err => {
+                document.getElementById('list-container').innerHTML = "Error 404: Data not found [ERR_NET_01]";
+            });
+    </script>
+</body>
+</html>
